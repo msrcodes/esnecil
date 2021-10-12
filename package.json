@@ -23,9 +23,13 @@
     "lint": "gts lint",
     "prepare": "husky install && yarn build",
     "pretest": "yarn build",
-    "posttest": "yarn lint"
+    "posttest": "yarn lint",
+    "start": "node build/index.js"
   },
   "lint-staged": {
-      ".{js,jsx,ts,tsx}": "yarn lint"
+    ".{js,jsx,ts,tsx}": "yarn lint"
+  },
+  "dependencies": {
+    "glob": "^7.2.0"
   }
 }
