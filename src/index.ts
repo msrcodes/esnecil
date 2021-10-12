@@ -1,41 +1,64 @@
+import * as chalk from 'chalk';
 import {readFileSync} from 'fs';
 import {Glob} from 'glob';
 
+console.log(
+  '✨ Running search for package.json files in your node_modules directory.'
+);
+
 const glob = new Glob('node_modules/**/package.json', error => {
   if (error) {
-    console.error({error});
+    console.error(chalk.red(error));
     return;
   }
 });
 
-const licenseToNames = new Map<string, Set<string>>();
+console.log('🎉 Success! Interpretting data...');
+
+const licenseToNames = new Map<string, Set<string | undefined>>();
 
 const handleInput = (matchPath: string) => {
   const fileContent = readFileSync(matchPath).toString();
-  const {name, license} = JSON.parse(fileContent);
+  const {license} = JSON.parse(fileContent);
+  const name = matchPath.replace(/(node_modules\/)|(\/package\.json)/gi, '');
 
-  const current = licenseToNames.get(license);
+  const parsedLicense = license ?? 'NONE';
+
+  const current = licenseToNames.get(parsedLicense);
 
   if (current) {
     current.add(name);
-    licenseToNames.set(license, current);
+    licenseToNames.set(parsedLicense, current);
     return;
   }
 
   const newSet = new Set<string>();
   newSet.add(name);
-  licenseToNames.set(license, newSet);
+  licenseToNames.set(parsedLicense, newSet);
 };
 
 glob.on('end', (matches: string[]) => {
   // store to map
   matches.forEach(handleInput);
 
+  console.log(`💬 Found ${licenseToNames.size} licenses.`);
+
   // print to console
   // TODO: this, but useful
   licenseToNames.forEach((value, key) => {
-    console.log(`${key} has ${value.size} packages.`);
+    if (key === 'NONE') {
+      return;
+    }
+    console.log(`-- ${value.size} dependencies have license "${key}".`);
   });
+
+  const noLicense = licenseToNames.get('NONE') ?? new Set();
+  console.log(
+    `-- ⚠️  ${chalk.yellow(
+      `${noLicense.size} dependencies do not have a license:`
+    )}`
+  );
+  noLicense.forEach(dep => console.log(`  -- ${dep}`));
 });
 
 export default glob;

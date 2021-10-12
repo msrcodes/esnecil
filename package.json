@@ -30,6 +30,7 @@
     ".{js,jsx,ts,tsx}": "yarn lint"
   },
   "dependencies": {
+    "chalk": "^4.1.2",
     "glob": "^7.2.0"
   }
 }
