@@ -1,5 +1,5 @@
 {
-  "name": "recursive-license-checker",
+  "name": "esnecil",
   "version": "1.0.0",
   "description": "A CLI tool to go through the LICENSE information of every module in your node_modules directory and report it back.",
   "main": "build/index.js",
