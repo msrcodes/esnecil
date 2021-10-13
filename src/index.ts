@@ -1,7 +1,10 @@
+#! /usr/bin/env node
+import {program} from 'commander';
+
 import {getAllPackageFiles} from './files';
 import {logLicenseInformation} from './licenses';
 
-const main = () => {
+const printLicenses = () => {
   console.log(
     '✨ Running search for package.json files in your node_modules directory.'
   );
@@ -12,4 +15,9 @@ const main = () => {
   logLicenseInformation(licenseToNames);
 };
 
-main();
+program
+  .command('list')
+  .description('List all licenses in this project.')
+  .action(printLicenses);
+
+program.parse();

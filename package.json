@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A CLI tool to go through the LICENSE information of every module in your node_modules directory and report it back.",
   "main": "build/index.js",
+  "bin": {
+      "esnecil": "build/index.js"
+  },
   "repository": "git@github.com:mikaelsrozee/recursive-license-checker.git",
   "author": "Mikael Rozee <mikaelsrozee@gmail.com>",
   "license": "MIT",
@@ -31,6 +34,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
+    "commander": "^8.2.0",
     "glob": "^7.2.0"
   }
 }
