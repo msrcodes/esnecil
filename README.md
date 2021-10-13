@@ -1,5 +1,5 @@
 # 🔎 Esnecil
-![✨ Release](https://github.com/mikaelsrozee/esnecil/actions/workflows/RELEASE.yml/badge.svg)](https://github.com/mikaelsrozee/esnecil/actions/workflows/RELEASE.yml)
+![✨ Release](https://github.com/mikaelsrozee/esnecil/actions/workflows/RELEASE.yml/badge.svg)
 
 Esnecil (license) checker is a CLI tool that will scan all dependencies (and subdependencies) in your project's node modules directory, allowing you to make informed choices about the packages that you are using.
 
