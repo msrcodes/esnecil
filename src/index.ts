@@ -49,13 +49,13 @@ glob.on('end', (matches: string[]) => {
     if (key === 'NONE') {
       return;
     }
-    console.log(`-- ${value.size} dependencies have license "${key}".`);
+    console.log(`-- ${value.size} dependencies with license "${key}".`);
   });
 
   const noLicense = licenseToNames.get('NONE') ?? new Set();
   console.log(
-    `-- ⚠️  ${chalk.yellow(
-      `${noLicense.size} dependencies do not have a license:`
+    `⚠️  ${chalk.yellow(
+      `Could not find a license for ${noLicense.size} dependencies:`
     )}`
   );
   noLicense.forEach(dep => console.log(`  -- ${dep}`));
