@@ -2,11 +2,40 @@ import {readFileSync} from 'fs';
 import {sync} from 'glob';
 import {LicenseMap, NO_LICENSE} from './consts';
 
+interface OldLicense {
+  type: string;
+  url: string;
+}
+
+interface PackageFile {
+  license?: string | OldLicense;
+  licenses?: [OldLicense];
+}
+
+const parseLicense = ({license, licenses}: PackageFile): string => {
+  let parsedLicense = NO_LICENSE;
+
+  if (typeof license === 'string') {
+    parsedLicense = license;
+  } else if (license?.type) {
+    parsedLicense = license.type;
+  } else if (licenses) {
+    const types = licenses.map(({type}) => type);
+    if (types.length === 1) {
+      parsedLicense = types[0];
+    } else {
+      parsedLicense = `(${types.join(' OR ')})`;
+    }
+  }
+
+  return parsedLicense;
+};
+
 const parsePackageFile = (path: string) => {
   const fileContent = readFileSync(path).toString();
-  let {license} = JSON.parse(fileContent);
+  const pkgFile = JSON.parse(fileContent) as PackageFile;
 
-  license = license?.type ?? license ?? NO_LICENSE;
+  const license = parseLicense(pkgFile);
 
   return {name: `./${path}`, license};
 };
