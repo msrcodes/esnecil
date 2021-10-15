@@ -6,7 +6,7 @@ const parsePackageFile = (path: string) => {
   const fileContent = readFileSync(path).toString();
   let {license} = JSON.parse(fileContent);
 
-  license = license ?? NO_LICENSE;
+  license = license?.type ?? license ?? NO_LICENSE;
 
   return {name: `./${path}`, license};
 };
